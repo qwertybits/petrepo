@@ -10,7 +10,13 @@
 class Kata
 {
 public:
+    ///Складає вектор пополам (сумуя елементи) n кількість разів (рекурсивна версія)
+    ///@param runs кількість складань
+    ///@author ngixx
     static std::vector<int> foldArray(const std::vector<int>& array, int runs);
+    ///Шукає унікальне число в масиві, який заповнений однаковими числами
+    ///@author ngixx
+    static float findUnique(const std::vector<float>& array);
 };
 
 #endif //KATA_H

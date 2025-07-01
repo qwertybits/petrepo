@@ -4,17 +4,26 @@
 
 using namespace ngixx;
 
-int main() {
-    NVector<int> vec;
+void vectorSection() {
     try {
-        fillVectorWithRandom(vec, 11, 100);
-        printVector(vec);
-        std::cout << "Vector size: " << vec.sizeOf() << "\t capacity: " << vec.capacityOf() << std::endl;
-        std::cout << "Pop back result:" << vec.pop_back() << std::endl;
-        printVector(vec);
-        std::cout << "Vector size: " << vec.sizeOf() << "\t capacity: " << vec.capacityOf() << std::endl;
-    } catch (std::out_of_range& err) {
-        std::cout << err.what() << std::endl;
+        NVector<int> v;
+        fillVectorWithRandom(v, 10, 25);
+        printVector(v);
+        v.remove(5);
+        printVector(v);
+        std::cout << "size = " << v.sizeOf() << "\tcapacity = " << v.capacityOf() << std::endl;
+    } catch (const std::out_of_range& ex) {
+        std::cout << ex.what() << std::endl;
     }
+}
+
+void stringSection() {
+    NString str = "hello world!";
+    printNString(str);
+}
+
+int main() {
+    // vectorSection();
+    stringSection();
     return 0;
 }

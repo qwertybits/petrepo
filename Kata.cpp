@@ -19,3 +19,15 @@ std::vector<int> Kata::foldArray(const std::vector<int>& array, int runs) {
         return result;
     }
 }
+
+float Kata::findUnique(const std::vector<float>& array) {
+    if (array[0]==array[1]) {
+        for (int i = 2; i < array.size(); i++) {
+            if (array[i]!=array[0]) {
+                return array[i];
+            }
+        }
+    }
+    if (array[0]==array[2]) return array[1];
+    return array[0];
+}

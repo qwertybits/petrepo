@@ -8,4 +8,6 @@ add_executable(untitled1 main.cpp
         Kata.cpp
         Kata.h
         misc.h
+        ntypes/NString.cpp
+        ntypes/NString.h
 )
