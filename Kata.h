@@ -6,6 +6,7 @@
 #define KATA_H
 
 #include <vector>
+#include <string>
 
 class Kata
 {
@@ -17,6 +18,8 @@ public:
     ///Шукає унікальне число в масиві, який заповнений однаковими числами
     ///@author ngixx
     static float findUnique(const std::vector<float>& array);
+
+    static std::string toWierdCase(std::string_view str);
 };
 
 #endif //KATA_H

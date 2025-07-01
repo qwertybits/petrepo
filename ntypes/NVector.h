@@ -68,6 +68,10 @@ namespace ngixx {
             return capacity;
         }
 
+        bool isEmpty() const {
+            return size == 0;
+        }
+
         T popBack() {
             if (size == 0)
                 throw std::out_of_range("vector is empty");
@@ -78,11 +82,9 @@ namespace ngixx {
             if (index >= 0 && index < size) {
                 for (int i = index; i < size - 1; i++)
                     data[i] = data[i+1];
-                data[size-1] = 0;
-                size--;
-                return;
-            }
-            throw std::out_of_range("index out of range");
+                data[--size] = 0;
+            } else
+                throw std::out_of_range("index out of range");
         }
 
     private:

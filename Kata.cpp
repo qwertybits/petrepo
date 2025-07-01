@@ -4,6 +4,9 @@
 
 #include "Kata.h"
 
+#include <string>
+#include <string_view>
+
 std::vector<int> Kata::foldArray(const std::vector<int>& array, int runs) {
     std::vector<int> result;
     int middle = array.size() / 2; //знаходимо середину масиву
@@ -30,4 +33,25 @@ float Kata::findUnique(const std::vector<float>& array) {
     }
     if (array[0]==array[2]) return array[1];
     return array[0];
+}
+
+std::string Kata::toWierdCase(std::string_view str) {
+    std::string result{str};
+    bool inWord = false;
+    int wordLetterCount = 0;
+    for (int i = 0; i < result.size(); i++) {
+        if (result[i] != ' ') {
+            inWord = true;
+        }
+        else {
+            inWord = false;
+            wordLetterCount = 0;
+        }
+        if (inWord) {
+            result[i] = (wordLetterCount % 2 == 0) ? static_cast<char>(toupper(result[i]))
+                                                   : static_cast<char>(tolower(result[i]));
+            wordLetterCount++;
+        }
+    }
+    return result;
 }

@@ -1,6 +1,8 @@
 #include "ntypes/NVector.h"
 #include "Kata.h"
 #include "misc.h"
+#include "ntypes/NString.h"
+#include <vector>
 
 using namespace ngixx;
 
@@ -23,7 +25,6 @@ void stringSection() {
 }
 
 int main() {
-    // vectorSection();
-    stringSection();
+    vectorSection();
     return 0;
 }

@@ -27,7 +27,7 @@ namespace ngixx {
         return vector.sizeOf();
     }
 
-    char &NString::operator[](int index) const {
+    const char &NString::operator[](int index) const {
         return vector[index];
     }
 
