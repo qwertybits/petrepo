@@ -6,6 +6,8 @@
 using namespace ngixx;
 
 int main() {
+
     NPrograms::Calculator::run();
+
     return 0;
 }

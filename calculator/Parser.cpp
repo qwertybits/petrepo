@@ -48,10 +48,10 @@ namespace ngixx {
             auto tk = peek();
             if (tk.getType() == OPERATOR_MULTIPLY) {
                 nextToken();
-                p *= term();
+                p *= primary_expression();
             } else if (tk.getType() == OPERATOR_DIVIDE) {
                 nextToken();
-                p /= term();
+                p /= primary_expression();
             } else break;
         }
         return p;
