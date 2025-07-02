@@ -37,6 +37,14 @@ namespace ngixx {
             }
         }
 
+        NVector(std::initializer_list<T> values) {
+            this->capacity = values.size() * 2;
+            data = new T[this->capacity];
+            for (auto value : values ) {
+                add(value);
+            }
+        }
+
         ~NVector() {
             delete[] data;
         }

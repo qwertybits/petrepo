@@ -10,6 +10,8 @@
 #include "ntypes/NString.h"
 #include "ntypes/NVector.h"
 
+#include <vector>
+
 namespace ngixx {
     ///Виводить елементи в векторі починаючи з заданої позиції, за умовчанням 0
     ///@param array масив
