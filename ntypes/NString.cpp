@@ -7,20 +7,18 @@
 namespace ngixx {
 
     int nStrlen(const char *str) {
-        int count = 0;
-        while (str[count] != '\0')
-            count++;
+        int count;
+        for (count = 0; str[count] != '\0'; ++count );
         return count;
     }
-
     NString::NString(const char *str) {
         for (int i = 0; i < nStrlen(str); i++) {
             vector.add(str[i]);
         }
     }
-    NString& NString::operator=(const char *str) {
-        *this = NString(str);
-        return *this;
+
+    NString::NString(const NString &other) {
+        this->vector = other.vector;
     }
 
     int NString::size() const {
@@ -35,5 +33,11 @@ namespace ngixx {
         return vector[index];
     }
 
+    std::ostream &operator<<(std::ostream &os, const NString &nstring) {
+        for (int i = 0; i < nstring.size(); i++) {
+            os << nstring[i];
+        }
+        return os;
+    }
 
 }

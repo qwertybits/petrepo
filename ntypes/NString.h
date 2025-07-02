@@ -11,17 +11,15 @@ namespace ngixx {
     int nStrlen(const char* str);
 
     class NString {
-    private:
         NVector<char> vector;
     public:
         NString() = default;
         NString(const char* str);
-        // NString(const NString& other);
-        // NString& operator=(const NString& other);
-        NString& operator=(const char* str);
+        NString(const NString& other);
         char& operator[](int index);
         const char& operator[](int index) const;
-        int size() const;
+        [[nodiscard]] int size() const;
+        friend std::ostream &operator<<(std::ostream &os, const NString& nstring);
     };
 }
 

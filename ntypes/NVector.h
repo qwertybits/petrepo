@@ -28,17 +28,26 @@ namespace ngixx {
             this->capacity = capacity;
         }
 
+        NVector(const NVector& other) {
+            data = new T[other.capacity];
+            this->capacity = other.capacity;
+            this->size = other.size;
+            for (int i = 0; i < this->size; i++) {
+                data[i] = other.data[i];
+            }
+        }
+
         ~NVector() {
             delete[] data;
         }
 
         void add(const T &obj) {
             if (data == nullptr) {
-                data = new T[DEFAULT_ALLOC_CAP];
-                capacity = DEFAULT_ALLOC_CAP;
+                expandCapacity(DEFAULT_ALLOC_CAP);
+            } else if (size==capacity) {
+                expandCapacity(capacity * 2);
             }
-            if (size==capacity)
-                expandCapacity();
+            // ReSharper disable once CppDFANullDereference
             data[size++] = obj;
         }
 
@@ -60,6 +69,14 @@ namespace ngixx {
             throw std::out_of_range("index out of range");
         }
 
+        //геніальний свап
+        NVector& operator=(NVector other) {
+            std::swap(data, other.data);
+            std::swap(capacity, other.capacity);
+            std::swap(size, other.size);
+            return *this;
+        }
+
         auto sizeOf() const {
             return size;
         }
@@ -68,7 +85,7 @@ namespace ngixx {
             return capacity;
         }
 
-        bool isEmpty() const {
+        [[nodiscard]] bool isEmpty() const {
             return size == 0;
         }
 
@@ -87,9 +104,16 @@ namespace ngixx {
                 throw std::out_of_range("index out of range");
         }
 
+        void eraseAll() {
+            delete[] data;
+            data = new T[DEFAULT_ALLOC_CAP];
+            capacity = DEFAULT_ALLOC_CAP;
+            size = 0;
+        }
+
     private:
-        void expandCapacity() {
-            capacity *= 2;
+        void expandCapacity(const int newCapacity) {
+            capacity = newCapacity;
             T* new_data = new T[capacity];
             for (int i = 0; i < size; i++)
                 new_data[i] = data[i];
