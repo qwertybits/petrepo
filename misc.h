@@ -32,19 +32,6 @@ namespace ngixx {
         std::cout << std::endl;
     }
 
-    inline void foo(const std::vector<int>& array) {
-        int maxElem = array[0];
-        int maxIndex = 0;
-        for (int i = 1; i < array.size(); i++) {
-            if (array[i] > maxElem) {
-                maxElem = array[i];
-                maxIndex = i;
-            }
-        }
-        printVector(array, maxIndex);
-        std::cout << std::endl;
-    }
-
     ///Заповнює масив випадковими числами
     ///@param array посилання на масив який заповнюється
     ///@param count яку кількість заповнити
@@ -66,13 +53,6 @@ namespace ngixx {
             array.add(rand() % upRange);
         }
     }
-
-    void printNString(const NString& str) {
-        for (int i = 0; i < str.size(); i++) {
-            std::cout << str[i];
-        }
-    }
-
 }
 
 #endif //MISC_H
