@@ -35,7 +35,10 @@ namespace ngixx {
                 os << "RBRACKET)";
                 return os;
             case OPERATOR_POW:
-                os << "POW:" << token.getValue() << ")";
+                os << "POW)";
+                return os;
+            case OPERATOR_MOD:
+                os << "MOD)";
                 return os;
             default:
                 os << "NUMBER_LITERAL:" << token.getValue() << ")";

@@ -43,16 +43,29 @@ namespace ngixx {
     }
 
     double Parser::term() {
-        double p = primary_expression();
+        double b = binary_expression();
         while (position < tokens.size()) {
-            auto tk = peek();
-            if (tk.getType() == OPERATOR_MULTIPLY) {
+            auto b_next = peek();
+            if (b_next.getType() == OPERATOR_MULTIPLY) {
                 nextToken();
-                p *= primary_expression();
-            } else if (tk.getType() == OPERATOR_DIVIDE) {
+                b *= binary_expression();
+            } else if (b_next.getType() == OPERATOR_DIVIDE) {
                 nextToken();
-                p /= primary_expression();
-            } else break;
+                double next = binary_expression();
+                if (next == 0)
+                    throw std::runtime_error("Divide by zero!");
+                b /= next;
+            } else
+                break;
+        }
+        return b;
+    }
+
+    double Parser::binary_expression() {
+        auto p = primary_expression();
+        if (peek().getType() == OPERATOR_POW) {
+            nextToken();
+            p = pow(p, binary_expression());
         }
         return p;
     }

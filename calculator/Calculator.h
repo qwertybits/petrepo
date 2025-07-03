@@ -16,22 +16,22 @@ namespace NPrograms {
         static constexpr std::string PROMPT = "> ";
     public:
         static void run() {
-            try {
-                Lexer lexer {};
-                Parser parser {};
-                double evalValue {};
-                std::string input;
-                while (true) {
-                    input = readLine();
-                    if (input == EXIT_COMMAND)
-                        break;
+            Lexer lexer {};
+            Parser parser {};
+            double evalValue {};
+            std::string input;
+            while (true) {
+                input = readLine();
+                if (input == EXIT_COMMAND)
+                    break;
+                try {
                     lexer.setInput(input);
                     parser.setTokens(lexer.tokenize());
                     evalValue = parser.parse();
                     std::cout << evalValue << std::endl;
+                } catch (std::runtime_error& e) {
+                    std::cout << e.what() << std::endl;
                 }
-            } catch (std::runtime_error& err) {
-                std::cerr << err.what() << std::endl;
             }
         }
     private:

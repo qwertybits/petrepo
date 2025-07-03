@@ -8,42 +8,80 @@ namespace ngixx {
 
     Lexer::Lexer(std::string_view input) : input(input) {}
 
-    std::vector<Token> Lexer::tokenize() const {
+    std::vector<Token> Lexer::tokenize() {
         std::vector<Token> tokens;
-        if (input.size() == 0)
+        if (input.empty())
             throw std::runtime_error("Empty experssion");
-        for (int i = 0; i < input.size(); ) {
+        for (position = 0; position < input.size(); ) {
             //Обробляємо оператори
-            if (OPERATORS.contains(input[i])) {
-                tokens.emplace_back(OPERATORS.at(input[i]));
-                ++i;
+            if (OPERATORS.contains(peek())) {
+                tokens.emplace_back(OPERATORS.at(peek()));
+                analyzeExplicitMultiplying(tokens);
+                nextChar();
             }
             //Обробляємо числа (поки що тільки цілі)
-            else if (isdigit(input[i])) {
-                tokens.emplace_back(NUMBER_LITERAL, tokenizeReadNumbers(i));
+            else if (isdigit(peek())) {
+                tokens.emplace_back(NUMBER_LITERAL, tokenizeReadNumbers());
             //Ігноруємо пробіли
-            } else if (input[i] == ' ' || input[i] == '\t') {
-                ++i;
+            } else if (peek() == ' ' || peek() == '\t') {
+                nextChar();
             } else {
-                throw std::runtime_error("Cant resolve expression");
+                throw std::runtime_error("Cant resolve given expression");
             }
         }
         return tokens;
+    }
+
+    //Зчитує символи чисел і повертає складене число із них
+    double Lexer::tokenizeReadNumbers() {
+        double num = 0;
+        while (position < input.size() && isdigit(peek())) {
+            num = num * 10 + (peek() - '0'); // 2*10+2 = 22
+            nextChar();
+        }
+        if (position < input.size() && peek() == '.') {
+            nextChar();
+            float factor = 10;
+            while (position < input.size() && isdigit(peek())) {
+                num = num + static_cast<float>(peek()-'0') / factor;
+                nextChar();
+                factor *= 10;
+            }
+        }
+        return num;
     }
 
     void Lexer::setInput(const std::string_view input) {
         this->input = input;
     }
 
-    //Зчитує символи чисел і повертає складене число із нього
-    double Lexer::tokenizeReadNumbers(int &i) const {
-        int num = 0;
-        while (i < input.size() && isdigit(input[i])) {
-            num = num * 10 + (input[i] - '0'); //magic?, no, bro
-            ++i;
-        }
-       return num;
+    //Дивиться який символ наступний, не змінює position
+    char Lexer::peek() const {
+        return input[position];
     }
+
+    //Повертає текущий символ і зміщює position
+    char Lexer::nextChar() {
+        return input[position++];
+    }
+
+    char Lexer::peekBack() const {
+        return input[position - 1];
+    }
+
+    void Lexer::analyzeExplicitMultiplying(std::vector<Token>& tokens) {
+        const auto current = tokens.end() - 1;
+        const auto prev = tokens.end() - 2;
+        if (!tokens.empty() && current->getType() == LBRACKET) {
+            if (prev->getType() == RBRACKET) {
+                tokens.insert(current, Token(OPERATOR_MULTIPLY));
+            }
+            if (prev->getType() == NUMBER_LITERAL) {
+                tokens.insert(current, Token(OPERATOR_MULTIPLY));
+            }
+        }
+    }
+
 
 }
 

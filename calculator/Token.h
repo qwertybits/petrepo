@@ -16,7 +16,8 @@ namespace ngixx {
         OPERATOR_DIVIDE,
         RBRACKET,
         LBRACKET,
-        OPERATOR_POW
+        OPERATOR_POW,
+        OPERATOR_MOD
     };
 
     class Token {

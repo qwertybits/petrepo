@@ -21,6 +21,7 @@ namespace ngixx {
         Token nextToken();
         double expression();
         double term();
+        double binary_expression();
         double primary_expression();
         [[nodiscard]] Token peek() const;
     };
