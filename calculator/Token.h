@@ -9,6 +9,7 @@
 
 namespace ngixx {
     enum TokenType {
+        IDENTIFIER,
         NUMBER_LITERAL,
         OPERATOR_PLUS,
         OPERATOR_MINUS,
@@ -20,12 +21,14 @@ namespace ngixx {
         OPERATOR_MOD
     };
 
+
     class Token {
         double value{};
-        TokenType type;
+        TokenType type {};
+        std::string identifier {};
     public:
+        Token(TokenType type);
         Token(TokenType type, double value);
-        explicit Token(TokenType type);
         [[nodiscard]] TokenType getType() const;
         [[nodiscard]] double getValue() const;
         friend std::ostream& operator<<(std::ostream& os, const Token& token);

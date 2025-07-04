@@ -25,8 +25,8 @@ namespace ngixx {
         int position = 0;
     public:
         Lexer() = default;
-        explicit Lexer(std::string_view input);
-        void setInput(std::string_view input);
+        explicit Lexer(const std::string& input);
+        void setInput(const std::string& input);
         [[nodiscard]] std::vector<Token> tokenize();
     private:
         double tokenizeReadNumbers();

@@ -10,15 +10,15 @@
 namespace ngixx {
     Parser::Parser(const std::vector<Token>& tokens) : tokens(tokens) {}
 
-    void Parser::setTokens(std::vector<Token> tokens) {
-        this->tokens = std::move(tokens);
+    void Parser::setTokens(const std::vector<Token>& tokens) {
+        this->tokens = tokens;
     }
 
-    Token Parser::nextToken() {
+    const Token& Parser::nextToken() {
         return tokens[position++];
     }
 
-    Token Parser::peek() const {
+    const Token& Parser::peek() const {
         return tokens[position];
     }
 
@@ -28,7 +28,7 @@ namespace ngixx {
     }
 
     double Parser::expression() {
-        double t = term();
+        auto t = term();
         while (position < tokens.size()) {
             auto tk = peek();
             if (tk.getType() == OPERATOR_PLUS) {
@@ -82,6 +82,7 @@ namespace ngixx {
                 throw std::runtime_error("Expected RBRACKET");
             return result;
         }
+
         //Перевірка на унарний мінус -number -(expression)
         if (tk.getType() == OPERATOR_MINUS) {
             return -primary_expression();

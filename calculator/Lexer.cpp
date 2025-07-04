@@ -6,7 +6,7 @@
 
 namespace ngixx {
 
-    Lexer::Lexer(std::string_view input) : input(input) {}
+    Lexer::Lexer(const std::string& input) : input(input) {}
 
     std::vector<Token> Lexer::tokenize() {
         std::vector<Token> tokens;
@@ -51,7 +51,7 @@ namespace ngixx {
         return num;
     }
 
-    void Lexer::setInput(const std::string_view input) {
+    void Lexer::setInput(const std::string& input) {
         this->input = input;
     }
 
