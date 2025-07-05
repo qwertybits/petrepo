@@ -17,7 +17,7 @@ namespace NPrograms {
     public:
         static void run() {
             Lexer lexer {};
-            Parser parser {};
+            Parser parser;
             double evalValue {};
             std::string input;
             while (true) {

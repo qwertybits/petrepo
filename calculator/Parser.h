@@ -4,17 +4,22 @@
 
 #ifndef PARSER_H
 #define PARSER_H
+#include <functional>
 #include <vector>
 
 #include "Lexer.h"
 
 namespace ngixx {
     class Parser {
+        std::map<std::string, std::function<double(double)>> FUNCTIONS_MAP;
+        std::map<std::string, double> CONSTANTS_VALUES;
+        void initFunctions();
+        void initConstants();
+        double ansVariable = 0;
         std::vector<Token> tokens {};
         int position = 0;
     public:
-        Parser() = default;
-        explicit Parser(const std::vector<Token>& tokens);
+        explicit Parser(const std::vector<Token>& tokens = {});
         double parse();
         void setTokens(const std::vector<Token>& tokens);
     private:

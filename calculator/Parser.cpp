@@ -8,7 +8,25 @@
 #include <utility>
 
 namespace ngixx {
-    Parser::Parser(const std::vector<Token>& tokens) : tokens(tokens) {}
+    void Parser::initFunctions() {
+        FUNCTIONS_MAP["sin"] = [](double x) -> double {
+            return sin((M_PI*x)/180);
+        };
+        FUNCTIONS_MAP["cos"] = [](double x) -> double {
+            return cos((M_PI*x)/180);
+        };
+    }
+
+    void Parser::initConstants() {
+        CONSTANTS_VALUES["pi"] = M_PI;
+        CONSTANTS_VALUES["e"] = M_E;
+        CONSTANTS_VALUES["ans"] = ansVariable;
+    }
+
+    Parser::Parser(const std::vector<Token>& tokens) : tokens(tokens) {
+        initFunctions();
+        initConstants();
+    }
 
     void Parser::setTokens(const std::vector<Token>& tokens) {
         this->tokens = tokens;
@@ -24,7 +42,7 @@ namespace ngixx {
 
     double Parser::parse() {
         this->position = 0;
-        return expression();
+        return (ansVariable = expression());
     }
 
     double Parser::expression() {
@@ -87,6 +105,16 @@ namespace ngixx {
         if (tk.getType() == OPERATOR_MINUS) {
             return -primary_expression();
         }
+
+        if (tk.getType() == IDENTIFIER && FUNCTIONS_MAP.contains(tk.getIdentifier())) {
+            const auto func = FUNCTIONS_MAP[tk.getIdentifier()];
+            return func(expression());
+        }
+
+        if (tk.getType() == IDENTIFIER && CONSTANTS_VALUES.contains(tk.getIdentifier())) {
+            return CONSTANTS_VALUES[tk.getIdentifier()];
+        }
+
         throw std::runtime_error("Unexpected token");
     }
 

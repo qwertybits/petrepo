@@ -9,9 +9,18 @@ namespace ngixx {
         return value;
     }
 
-    Token::Token(TokenType type) : type(type) {}
+    Token::Token(TokenType type)
+            : type(type) {}
 
-    Token::Token(TokenType type, double value) : value(value), type(type) {}
+    Token::Token(TokenType type, double value)
+            : value(value), type(type) {}
+
+    Token::Token(TokenType type, const std::string& identifier)
+            : type(type), identifier(identifier) {}
+
+    std::string Token::getIdentifier() const {
+        return identifier;
+    }
 
     std::ostream& operator<<(std::ostream& os, const Token& token) {
         os << "(";
@@ -39,6 +48,9 @@ namespace ngixx {
                 return os;
             case OPERATOR_MOD:
                 os << "MOD)";
+                return os;
+            case IDENTIFIER:
+                os << "IDENTIFIER:" << token.getIdentifier() << ")";
                 return os;
             default:
                 os << "NUMBER_LITERAL:" << token.getValue() << ")";

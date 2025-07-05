@@ -4,25 +4,26 @@
 
 #include "Lexer.h"
 
+#include <utility>
+
 namespace ngixx {
 
-    Lexer::Lexer(const std::string& input) : input(input) {}
+    Lexer::Lexer(std::string  input) : input(std::move(input)) {}
 
     std::vector<Token> Lexer::tokenize() {
         std::vector<Token> tokens;
         if (input.empty())
-            throw std::runtime_error("Empty experssion");
+            throw std::runtime_error("Empty expression");
         for (position = 0; position < input.size(); ) {
             //Обробляємо оператори
             if (OPERATORS.contains(peek())) {
                 tokens.emplace_back(OPERATORS.at(peek()));
-                analyzeExplicitMultiplying(tokens);
+                analyzeImplicitMultiplying(tokens);
                 nextChar();
-            }
-            //Обробляємо числа (поки що тільки цілі)
-            else if (isdigit(peek())) {
-                tokens.emplace_back(NUMBER_LITERAL, tokenizeReadNumbers());
-            //Ігноруємо пробіли
+            } else if (std::isalpha(peek())) {
+                tokens.emplace_back(IDENTIFIER, tokenizeIdentifiers());
+            } else if (std::isdigit(peek())) {
+                tokens.emplace_back(NUMBER_LITERAL, tokenizeNumbers());
             } else if (peek() == ' ' || peek() == '\t') {
                 nextChar();
             } else {
@@ -33,7 +34,7 @@ namespace ngixx {
     }
 
     //Зчитує символи чисел і повертає складене число із них
-    double Lexer::tokenizeReadNumbers() {
+    double Lexer::tokenizeNumbers() {
         double num = 0;
         while (position < input.size() && isdigit(peek())) {
             num = num * 10 + (peek() - '0'); // 2*10+2 = 22
@@ -49,6 +50,15 @@ namespace ngixx {
             }
         }
         return num;
+    }
+
+    std::string Lexer::tokenizeIdentifiers() {
+        std::string result {};
+        while (position < input.size() && isalpha(peek())) {
+            result.append(1, peek());
+            nextChar();
+        }
+        return result;
     }
 
     void Lexer::setInput(const std::string& input) {
@@ -69,7 +79,7 @@ namespace ngixx {
         return input[position - 1];
     }
 
-    void Lexer::analyzeExplicitMultiplying(std::vector<Token>& tokens) {
+    void Lexer::analyzeImplicitMultiplying(std::vector<Token>& tokens) {
         const auto current = tokens.end() - 1;
         const auto prev = tokens.end() - 2;
         if (!tokens.empty() && current->getType() == LBRACKET) {
@@ -84,7 +94,3 @@ namespace ngixx {
 
 
 }
-
-
-
-

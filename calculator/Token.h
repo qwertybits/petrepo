@@ -21,14 +21,17 @@ namespace ngixx {
         OPERATOR_MOD
     };
 
-
     class Token {
         double value{};
         TokenType type {};
         std::string identifier {};
     public:
-        Token(TokenType type);
+        explicit Token(TokenType type);
         Token(TokenType type, double value);
+        Token(TokenType type, const std::string& identifier);
+
+        [[nodiscard]] std::string getIdentifier() const;
+
         [[nodiscard]] TokenType getType() const;
         [[nodiscard]] double getValue() const;
         friend std::ostream& operator<<(std::ostream& os, const Token& token);

@@ -25,15 +25,18 @@ namespace ngixx {
         int position = 0;
     public:
         Lexer() = default;
-        explicit Lexer(const std::string& input);
+        explicit Lexer(std::string  input);
         void setInput(const std::string& input);
         [[nodiscard]] std::vector<Token> tokenize();
     private:
-        double tokenizeReadNumbers();
+        double tokenizeNumbers();
+
+        std::string tokenizeIdentifiers();
+
         [[nodiscard]] char peek() const;
         char nextChar();
         [[nodiscard]] char peekBack() const;
-        static void analyzeExplicitMultiplying(std::vector<Token>& tokens) ;
+        static void analyzeImplicitMultiplying(std::vector<Token>& tokens) ;
     };
 }
 
