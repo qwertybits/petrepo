@@ -17,4 +17,6 @@ add_executable(untitled1 main.cpp
         calculator/Calculator.h
         calculator/Token.cpp
         calculator/Token.h
+        calculator/ast/ASTNode.cpp
+        calculator/ast/ASTNode.h
 )

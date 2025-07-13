@@ -16,7 +16,7 @@ namespace NPrograms {
         static constexpr std::string PROMPT = "> ";
     public:
         static void run() {
-            Lexer lexer {};
+            Lexer lexer;
             Parser parser;
             double evalValue {};
             std::string input;

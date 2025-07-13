@@ -95,9 +95,9 @@ namespace ngixx {
         }
         if (tk.getType() == LBRACKET) {
             double result = expression();
-            auto next = nextToken();
-            if (next.getType() != RBRACKET)
+            if (peek().getType() != RBRACKET)
                 throw std::runtime_error("Expected RBRACKET");
+            nextToken();
             return result;
         }
 
