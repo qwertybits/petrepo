@@ -11,6 +11,3 @@ int main() {
 
 ![ratdancing](https://media1.tenor.com/m/oJ9hAJxbOZMAAAAd/rat-dancing.gif)
 
-:arrow_up: - це я.
-
-Проста заливаю сюди код, який по фану там написав за один вечір, коли був настрій. Работаю сам на себе.
